@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, {Fragment} from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,7 +13,7 @@ import Navbar from './components/Navbar';
 export default function App() {
   return (
     <Router>
-      <div>
+      <Fragment>
         <Navbar />
         <div className="container p-4">
         <Switch>
@@ -25,7 +25,7 @@ export default function App() {
           </Route>
         </Switch>
         </div>
-      </div>
+      </Fragment>
     </Router>
   );
 }

@@ -5,14 +5,22 @@ export default function Users(e) {
     const [username, setName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [users, setUser] = useState([]);
+    const [usuarios, setUsers] = useState([]);
     const [editing, setEditing] = useState(false);
     const [idusuario, setId] = useState('');
     const API = process.env.REACT_APP_API;
 
+    
+
     useEffect( ()=> {
+        const getUsers = async () => {
+            const res = await fetch(`${API}/users`)
+            const data = await res.json();
+            setUsers(data)
+        };
         getUsers();
-    },[]);
+    },[API]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,7 +64,7 @@ export default function Users(e) {
     const getUsers = async () => {
         const res = await fetch(`${API}/users`)
         const data = await res.json();
-        setUser(data)
+        setUsers(data)
         console.log(data)
     };
    
@@ -82,6 +90,8 @@ export default function Users(e) {
         setEmail(data['e-mail']);
         console.log(await data)
     };
+
+
 
     
 
@@ -117,7 +127,7 @@ export default function Users(e) {
             
             </div> 
             <div className = "col-md-6" >
-            <table className = 'table table-striped'>
+            <table id = "myTable" className = "table table-striped myTable">
                 <thead>
                     <tr>
                         <th>Username</th>
@@ -127,8 +137,8 @@ export default function Users(e) {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user) => (
-                    <tr key={user._id}>
+                    {usuarios.map((user) => (
+                    <tr key={user._id['$oid']}>
                         <th>{user['username']}</th>
                         <th>{user['e-mail']}</th>
                         <th>{(user['password']).substr(10,20)}</th>
@@ -147,7 +157,7 @@ export default function Users(e) {
                     </tr>
                     ))}
                 </tbody>
-            </table>
+            </table>         
             </div>
         </div>
     )
